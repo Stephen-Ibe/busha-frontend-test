@@ -27,6 +27,13 @@ body {
   margin-left: auto !important;
 }
 
+.center__element {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 .topbar {
   height: 56px;
   display: flex;
