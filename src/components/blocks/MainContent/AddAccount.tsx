@@ -27,9 +27,8 @@ const AddAccount = ({ handleClose }: Props) => {
     };
     try {
       const res = await fetch('http://localhost:3090/accounts', requestOptions);
-      console.log(res);
-      const jsonResponse = await res.json();
-      console.log(jsonResponse);
+      await res.json();
+      handleClose();
     } catch (err) {
       console.log(err);
     }
