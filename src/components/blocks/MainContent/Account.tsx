@@ -7,7 +7,7 @@ type Props = {
 
 const Account = ({ account }: Props) => {
   return (
-    <div className='account' key={account.id}>
+    <div className='account'>
       <div className='currency'>
         <div className='currency__img'>
           <img src={account.imgURL} alt={`${account.currency}_img`} />

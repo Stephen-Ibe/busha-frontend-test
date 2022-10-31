@@ -44,13 +44,16 @@ const MainContent = () => {
           </div>
         </div>
         <hr />
+
         <div className='content'>
           {loading ? (
             <div className='center__element'>
               <Loader size={50} width={5} />
             </div>
           ) : accounts.length > 0 ? (
-            accounts.map((account: any) => <Account account={account} />)
+            accounts.map((account: any) => (
+              <Account account={account} key={account.id} />
+            ))
           ) : (
             ''
           )}
