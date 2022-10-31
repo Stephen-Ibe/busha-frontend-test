@@ -1,4 +1,4 @@
-import styled, { css, keyframes } from "styled-components";
+import styled, { css, keyframes } from 'styled-components';
 
 const spinKeyframes = keyframes`
   0% {
@@ -15,7 +15,7 @@ export interface LoaderProps {
 }
 
 const LoaderDiv = styled.div.attrs({
-  "aria-label": "Loading...",
+  'aria-label': 'Loading...',
 })<LoaderProps>`
   animation: ${spinKeyframes} 500ms infinite linear;
   color: gray;
