@@ -12,10 +12,6 @@ const MainContent = () => {
     setModalActions(true);
   };
 
-  const handleCloseModal = () => {
-    setModalActions(false);
-  };
-
   const fetchAccounts = async () => {
     setLoading(true);
     try {
@@ -29,6 +25,11 @@ const MainContent = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCloseModal = () => {
+    setModalActions(false);
+    fetchAccounts();
   };
 
   useEffect(() => {
