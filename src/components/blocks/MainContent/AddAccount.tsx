@@ -81,12 +81,11 @@ const AddAccount = ({ handleClose }: Props) => {
                 value={formData}
                 onChange={handleInputChange}
                 name='wallet'
-                defaultValue={'default'}
               >
                 <option>Choose a wallet</option>
                 {wallets.length > 0 &&
                   wallets.map(({ currency, name }: any) => (
-                    <option id={currency} value={currency}>
+                    <option id={currency} value={currency} key={name}>
                       {name}
                     </option>
                   ))}

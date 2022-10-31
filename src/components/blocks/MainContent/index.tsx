@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Loader from '../../shared/Loader';
-import ArrowLeft from '../../../assets/images/arr.png';
+import Account from './Account';
 import AddAccount from './AddAccount';
 
 const MainContent = () => {
@@ -16,9 +16,7 @@ const MainContent = () => {
     setLoading(true);
     try {
       const res = await fetch('http://localhost:3090/accounts');
-      console.log(res);
       const jsonResponse = await res.json();
-      console.log(jsonResponse);
       setAccounts(jsonResponse);
     } catch (err: any) {
       console.log(err);
@@ -52,24 +50,7 @@ const MainContent = () => {
               <Loader size={50} width={5} />
             </div>
           ) : accounts.length > 0 ? (
-            accounts.map((account: any) => (
-              <div className='account' key={account.id}>
-                <div className='currency'>
-                  <div className='currency__img'>
-                    <img src={account.imgURL} alt={`${account.currency}_img`} />
-                  </div>
-                  <h4>{account.name}</h4>
-                </div>
-                <div className='balance'>
-                  {account.type === 'fiat'
-                    ? `${account.currency} ${account.balance}`
-                    : `${account.balance} ${account.currency}`}
-                </div>
-                <div className='account__cta'>
-                  <img src={ArrowLeft} alt='account_cta' />
-                </div>
-              </div>
-            ))
+            accounts.map((account: any) => <Account account={account} />)
           ) : (
             ''
           )}
