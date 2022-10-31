@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Loader from '../../shared/Loader';
+import NetworkError from '../NetworkError';
 import Account from './Account';
 import AddAccount from './AddAccount';
 
@@ -7,6 +8,7 @@ const MainContent = () => {
   const [accounts, setAccounts] = useState<{ [key: string]: any }[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [modalActions, setModalActions] = useState<boolean>(false);
+  const [hasError, setHasError] = useState<boolean>(false);
 
   const handleShowModal = () => {
     setModalActions(true);
@@ -16,8 +18,13 @@ const MainContent = () => {
     setLoading(true);
     try {
       const res = await fetch('http://localhost:3090/accounts');
-      const jsonResponse = await res.json();
-      setAccounts(jsonResponse);
+      console.log(res);
+      if (res.status !== 200) {
+        setHasError(true);
+      } else {
+        const jsonResponse = await res.json();
+        setAccounts(jsonResponse);
+      }
     } catch (err: any) {
       console.log(err);
     } finally {
@@ -50,6 +57,8 @@ const MainContent = () => {
             <div className='center__element'>
               <Loader size={50} width={5} />
             </div>
+          ) : hasError ? (
+            <NetworkError retry={fetchAccounts} />
           ) : accounts.length > 0 ? (
             accounts.map((account: any) => (
               <Account account={account} key={account.id} />
