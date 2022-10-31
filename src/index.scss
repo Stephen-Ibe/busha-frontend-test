@@ -78,6 +78,7 @@ body {
     ul li {
       padding: 20px;
       border-radius: 3px;
+      cursor: pointer;
 
       &:first-child {
         background: #e6ecf5;
@@ -85,6 +86,12 @@ body {
       }
     }
   }
+}
+
+.main__content {
+  margin-left: 40px;
+  border: 1px solid red;
+  width: 100%;
 }
 
 @media screen and (max-width: 640px) {
