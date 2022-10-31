@@ -42,7 +42,7 @@ const MainContent = () => {
         <div className='heading'>
           <h2>Wallets</h2>
           <div className='heading__cta' role='button' onClick={handleShowModal}>
-            +Add New Wallet
+            + Add New Wallet
           </div>
         </div>
         <hr />
