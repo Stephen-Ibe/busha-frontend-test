@@ -95,6 +95,38 @@ body {
   }
 }
 
+.addWallet {
+  padding: 40px 20px;
+
+  .addAccount__heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    div {
+      font-weight: bold;
+      font-size: 18px;
+    }
+  }
+
+  .desc {
+    margin: 30px 0px;
+  }
+
+  .select-field {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      padding-bottom: 10px;
+    }
+
+    select {
+      padding: 10px;
+    }
+  }
+}
+
 .main__content {
   margin-left: 40px;
   width: 100%;
@@ -115,19 +147,27 @@ body {
     }
   }
 
+  hr {
+    margin-top: 20px;
+    border: 1px solid #d3d5d880;
+  }
+
   .content {
     display: flex;
     justify-content: space-between;
-    margin: 20px 0px;
+    flex-wrap: wrap;
+    margin: 40px 0px;
 
     .account {
       height: 150px;
-      width: 240px;
+      width: 280px;
       padding: 15px 20px;
-      background: #111111;
+      margin: 0 0 40px 0;
       box-shadow: 0px 10px 20px rgba(138, 138, 138, 0.5);
       border-radius: 10px;
       color: #ffffff;
+      background: url('./assets/images/abs1.png') bottom left no-repeat,
+        url('./assets/images/abs2.png') bottom right no-repeat, #111111;
 
       .currency {
         display: flex;
@@ -140,6 +180,15 @@ body {
       .balance {
         font-weight: bold;
         margin-top: 10px;
+      }
+      .account__cta {
+        position: relative;
+        top: 20px;
+        left: 5px;
+        cursor: pointer;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
       }
     }
   }
