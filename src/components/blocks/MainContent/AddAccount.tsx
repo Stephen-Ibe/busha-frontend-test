@@ -150,7 +150,11 @@ const AddAccount = ({ handleClose }: Props) => {
                 <p className='error__msg'>{error}</p>
               </div>
               <div className='button' onClick={handleSubmit}>
-                <button type='submit'>Create Wallet</button>
+                {loading ? (
+                  <label>Loading</label>
+                ) : (
+                  <button type='submit'>Create Wallet</button>
+                )}
               </div>
               {hasError.submit && (
                 <div className='submit__err'>
