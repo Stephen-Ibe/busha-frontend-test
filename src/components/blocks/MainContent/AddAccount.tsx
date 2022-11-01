@@ -35,22 +35,28 @@ const AddAccount = ({ handleClose }: Props) => {
       body: JSON.stringify(payload),
     };
     try {
-      const res = await fetch('http://localhost:3090/accounts', requestOptions);
+      const res = await fetch('http://localhost:3090/account', requestOptions);
       console.log(res);
-      if (res.status !== 200) {
+      if (res.status < 200 || res.status > 299) {
         setHasError({
-          ...hasError,
-          submit: true,
+          fetch: false,
+          submit: false,
         });
-      } else {
         await res.json();
         handleClose();
+      } else {
+        setHasError({
+          fetch: false,
+          submit: true,
+        });
+        Promise.reject(error);
       }
     } catch (err) {
       setHasError({
         ...hasError,
         submit: true,
       });
+      console.error(err);
     }
   };
 
@@ -65,10 +71,12 @@ const AddAccount = ({ handleClose }: Props) => {
     }
   };
 
-  const fetchWallets = async () => {
+  const fetchWallets = async (ab?: any) => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:3090/wallet');
+      const res = await fetch('http://localhost:3090/wallets', {
+        signal: ab.signal,
+      });
       if (res.status !== 200) {
         setHasError({
           submit: false,
@@ -93,7 +101,12 @@ const AddAccount = ({ handleClose }: Props) => {
   };
 
   useEffect(() => {
-    fetchWallets();
+    const abortController = new AbortController();
+    fetchWallets(abortController);
+
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   return (
