@@ -120,7 +120,9 @@ const AddAccount = ({ handleClose }: Props) => {
         <div className='addWallet'>
           <div className='addAccount__heading'>
             <h2>Add New Wallet</h2>
-            <div onClick={handleClose}>X</div>
+            <div onClick={handleClose}>
+              <img src={CloseError} alt='close button' />
+            </div>
           </div>
           <div className='desc'>
             <p>
