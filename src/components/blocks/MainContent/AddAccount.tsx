@@ -35,9 +35,9 @@ const AddAccount = ({ handleClose }: Props) => {
       body: JSON.stringify(payload),
     };
     try {
-      const res = await fetch('http://localhost:3090/account', requestOptions);
-      console.log(res);
-      if (res.status < 200 || res.status > 299) {
+      const res = await fetch('http://localhost:3090/accounts', requestOptions);
+
+      if (res.status === 201) {
         setHasError({
           fetch: false,
           submit: false,
@@ -49,7 +49,6 @@ const AddAccount = ({ handleClose }: Props) => {
           fetch: false,
           submit: true,
         });
-        Promise.reject(error);
       }
     } catch (err) {
       setHasError({
