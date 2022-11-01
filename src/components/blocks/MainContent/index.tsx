@@ -18,7 +18,6 @@ const MainContent = () => {
     setLoading(true);
     try {
       const res = await fetch('http://localhost:3090/accounts');
-      console.log(res);
       if (res.status !== 200) {
         setHasError(true);
       } else {
