@@ -14,12 +14,10 @@ const MainContent = () => {
     setModalActions(true);
   };
 
-  const fetchAccounts = async (abortController?: any) => {
+  const fetchAccounts = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:3090/accounts', {
-        signal: abortController.signal,
-      });
+      const res = await fetch('http://localhost:3090/accounts');
       if (res.status !== 200) {
         setHasError(true);
       } else {
@@ -39,11 +37,8 @@ const MainContent = () => {
   };
 
   useEffect(() => {
-    const abortController = new AbortController();
-
     fetchAccounts();
     return () => {
-      abortController.abort();
       setLoading(false);
     };
   }, []);
