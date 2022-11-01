@@ -5,19 +5,19 @@ type Props = {
   account: { [key: string]: any };
 };
 
-const Account = ({ account }: Props) => {
+const Account = ({
+  account: { imgURL, currency, name, type, balance },
+}: Props) => {
   return (
     <div className='account'>
       <div className='currency'>
         <div className='currency__img'>
-          <img src={account.imgURL} alt={`${account.currency}_img`} />
+          <img src={imgURL} alt={`${currency}_img`} />
         </div>
-        <h4>{account.name}</h4>
+        <h4>{name}</h4>
       </div>
       <div className='balance'>
-        {account.type === 'fiat'
-          ? `${account.currency} ${account.balance}`
-          : `${account.balance} ${account.currency}`}
+        {type === 'fiat' ? `${currency} ${balance}` : `${balance} ${currency}`}
       </div>
       <div className='account__cta'>
         <img src={ArrowLeft} alt='account_cta' />

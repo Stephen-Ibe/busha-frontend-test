@@ -45,9 +45,15 @@ const MainContent = () => {
       <div className='main__content'>
         <div className='heading'>
           <h2>Wallets</h2>
-          <div className='heading__cta' role='button' onClick={handleShowModal}>
-            + Add New Wallet
-          </div>
+          {!hasError && (
+            <div
+              className='heading__cta'
+              role='button'
+              onClick={handleShowModal}
+            >
+              + Add New Wallet
+            </div>
+          )}
         </div>
         <hr />
 
@@ -60,7 +66,7 @@ const MainContent = () => {
             <NetworkError retry={fetchAccounts} />
           ) : accounts.length > 0 ? (
             accounts.map((account: any) => (
-              <Account account={account} key={account.id} />
+              <Account account={account} key={account?.id} />
             ))
           ) : (
             ''

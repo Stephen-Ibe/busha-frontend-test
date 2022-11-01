@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import Loader from '../../shared/Loader';
 import Modal from '../../shared/Modal';
+import NetworkError from '../NetworkError';
+import ErrorImg from '../../../assets/images/error.png';
+import CloseError from '../../../assets/images/errClose.png';
 
 type Props = {
   handleClose: () => void;
@@ -8,7 +12,12 @@ type Props = {
 const AddAccount = ({ handleClose }: Props) => {
   const [wallets, setWallets] = useState<any>([]);
   const [formData, setFormData] = useState('');
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+  const [hasError, setHasError] = useState<{ [key: string]: any }>({
+    fetch: false,
+    submit: false,
+  });
 
   const handleInputChange = (e: any) => {
     const { value } = e.target;
@@ -27,10 +36,21 @@ const AddAccount = ({ handleClose }: Props) => {
     };
     try {
       const res = await fetch('http://localhost:3090/accounts', requestOptions);
-      await res.json();
-      handleClose();
+      console.log(res);
+      if (res.status !== 200) {
+        setHasError({
+          ...hasError,
+          submit: true,
+        });
+      } else {
+        await res.json();
+        handleClose();
+      }
     } catch (err) {
-      console.log(err);
+      setHasError({
+        ...hasError,
+        submit: true,
+      });
     }
   };
 
@@ -41,18 +61,34 @@ const AddAccount = ({ handleClose }: Props) => {
       setError('Please choose an option');
     } else {
       setError('');
-      console.log(formData);
       addWallet(formData);
     }
   };
 
   const fetchWallets = async () => {
+    setLoading(true);
     try {
-      const res = await fetch('http://localhost:3090/wallets');
-      const jsonResponse = await res.json();
-      setWallets(jsonResponse);
+      const res = await fetch('http://localhost:3090/wallet');
+      if (res.status !== 200) {
+        setHasError({
+          submit: false,
+          fetch: true,
+        });
+      } else {
+        const jsonResponse = await res.json();
+        setWallets(jsonResponse);
+        setHasError({
+          submit: false,
+          fetch: false,
+        });
+      }
     } catch (err) {
-      console.log(err);
+      setHasError({
+        submit: false,
+        fetch: true,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -62,42 +98,65 @@ const AddAccount = ({ handleClose }: Props) => {
 
   return (
     <Modal isOpen>
-      <div className='addWallet'>
-        <div className='addAccount__heading'>
-          <h2>Add New Wallet</h2>
-          <div onClick={handleClose}>X</div>
+      {loading ? (
+        <div className='center__element'>
+          <Loader size={50} width={5} />
         </div>
-        <div className='desc'>
-          <p>
-            The crypto wallet will be created instantly and be available in your
-            list of wallets.
-          </p>
+      ) : hasError.fetch ? (
+        <NetworkError retry={fetchWallets} />
+      ) : (
+        <div className='addWallet'>
+          <div className='addAccount__heading'>
+            <h2>Add New Wallet</h2>
+            <div onClick={handleClose}>X</div>
+          </div>
+          <div className='desc'>
+            <p>
+              The crypto wallet will be created instantly and be available in
+              your list of wallets.
+            </p>
+          </div>
+          <div>
+            <form>
+              <div className='select-field'>
+                <label>Select Wallet</label>
+                <select
+                  value={formData}
+                  onChange={handleInputChange}
+                  name='wallet'
+                >
+                  <option>Choose a wallet</option>
+                  {wallets.length > 0 &&
+                    wallets.map(({ currency, name }: any) => (
+                      <option id={currency} value={currency} key={name}>
+                        {name}
+                      </option>
+                    ))}
+                </select>
+                <p className='error__msg'>{error}</p>
+              </div>
+              <div className='button' onClick={handleSubmit}>
+                <button type='submit'>Create Wallet</button>
+              </div>
+              {hasError.submit && (
+                <div className='submit__err'>
+                  <div className='err__desc'>
+                    <img src={ErrorImg} alt='error_img' loading='lazy' />
+                    <p>Network Error</p>
+                  </div>
+                  <div
+                    className='close'
+                    role='button'
+                    onClick={() => setHasError({ fetch: false, submit: false })}
+                  >
+                    <img src={CloseError} alt='close_img' />
+                  </div>
+                </div>
+              )}
+            </form>
+          </div>
         </div>
-        <div>
-          <form>
-            <div className='select-field'>
-              <label>Select Wallet</label>
-              <select
-                value={formData}
-                onChange={handleInputChange}
-                name='wallet'
-              >
-                <option>Choose a wallet</option>
-                {wallets.length > 0 &&
-                  wallets.map(({ currency, name }: any) => (
-                    <option id={currency} value={currency} key={name}>
-                      {name}
-                    </option>
-                  ))}
-              </select>
-              <p className='error__msg'>{error}</p>
-            </div>
-            <div className='button' onClick={handleSubmit}>
-              <button type='submit'>Create Wallet</button>
-            </div>
-          </form>
-        </div>
-      </div>
+      )}
     </Modal>
   );
 };
