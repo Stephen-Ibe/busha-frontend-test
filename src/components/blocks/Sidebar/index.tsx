@@ -13,7 +13,9 @@ const SideBar = () => {
     <div className='sidebar'>
       <ul>
         {navItems.map((item: any) => (
-          <li key={item.id}>{item.name}</li>
+          <li key={item.id}>
+            <a href='!#'>{item.name}</a>
+          </li>
         ))}
       </ul>
     </div>
